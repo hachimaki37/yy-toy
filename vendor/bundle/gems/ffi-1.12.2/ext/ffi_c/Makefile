@@ -5,19 +5,19 @@ SHELL = /bin/sh
 V = 0
 Q1 = $(V:1=)
 Q = $(Q1:0=@)
-ECHO1 = $(V:1=@:)
-ECHO = $(ECHO1:0=@echo)
+ECHO1 = $(V:1=@ :)
+ECHO = $(ECHO1:0=@ echo)
 NULLCMD = :
 
 #### Start of system configuration section. ####
 
 srcdir = .
-topdir = /Users/yutakayamaki/.rbenv/versions/2.2.4/include/ruby-2.2.0
+topdir = /Users/yutakayamaki/.rbenv/versions/2.6.4/include/ruby-2.6.0
 hdrdir = $(topdir)
-arch_hdrdir = /Users/yutakayamaki/.rbenv/versions/2.2.4/include/ruby-2.2.0/x86_64-darwin17
+arch_hdrdir = /Users/yutakayamaki/.rbenv/versions/2.6.4/include/ruby-2.6.0/x86_64-darwin17
 PATH_SEPARATOR = :
 VPATH = $(srcdir):$(arch_hdrdir)/ruby:$(hdrdir)/ruby
-prefix = $(DESTDIR)/Users/yutakayamaki/.rbenv/versions/2.2.4
+prefix = $(DESTDIR)/Users/yutakayamaki/.rbenv/versions/2.6.4
 rubysitearchprefix = $(rubylibprefix)/$(sitearch)
 rubyarchprefix = $(rubylibprefix)/$(arch)
 rubylibprefix = $(libdir)/$(RUBY_BASE_NAME)
@@ -31,8 +31,8 @@ rubyhdrdir = $(includedir)/$(RUBY_VERSION_NAME)
 vendorarchdir = $(vendorlibdir)/$(sitearch)
 vendorlibdir = $(vendordir)/$(ruby_version)
 vendordir = $(rubylibprefix)/vendor_ruby
-sitearchdir = $(DESTDIR)./.gem.20200519-25406-1nmi09m
-sitelibdir = $(DESTDIR)./.gem.20200519-25406-1nmi09m
+sitearchdir = $(DESTDIR)./.gem.20200519-82281-1yqyvao
+sitelibdir = $(DESTDIR)./.gem.20200519-82281-1yqyvao
 sitedir = $(rubylibprefix)/site_ruby
 rubyarchdir = $(rubylibdir)/$(arch)
 rubylibdir = $(rubylibprefix)/$(ruby_version)
@@ -50,7 +50,7 @@ dvidir = $(docdir)
 htmldir = $(docdir)
 infodir = $(datarootdir)/info
 docdir = $(datarootdir)/doc/$(PACKAGE)
-oldincludedir = $(DESTDIR)/usr/include
+oldincludedir = $(SDKROOT)/usr/include
 includedir = $(prefix)/include
 localstatedir = $(prefix)/var
 sharedstatedir = $(prefix)/com
@@ -63,38 +63,42 @@ bindir = $(exec_prefix)/bin
 archdir = $(rubyarchdir)
 
 
-CC = clang
+CC_WRAPPER = 
+CC = $(CC_WRAPPER) clang
 CXX = clang++
-LIBRUBY = $(LIBRUBY_A)
+LIBRUBY = $(LIBRUBY_SO)
 LIBRUBY_A = lib$(RUBY_SO_NAME)-static.a
-LIBRUBYARG_SHARED = 
-LIBRUBYARG_STATIC = -l$(RUBY_SO_NAME)-static -framework CoreFoundation
+LIBRUBYARG_SHARED = -l$(RUBY_SO_NAME)
+LIBRUBYARG_STATIC = -l$(RUBY_SO_NAME)-static -framework Security -framework Foundation $(MAINLIBS)
 empty =
 OUTFLAG = -o $(empty)
 COUTFLAG = -o $(empty)
+CSRCFLAG = $(empty)
 
 RUBY_EXTCONF_H = extconf.h
-cflags   =  $(optflags) $(debugflags) $(warnflags)
-optflags = -O3 -fno-fast-math
+cflags   = $(optflags) $(debugflags) $(warnflags)
+cxxflags = $(optflags) $(debugflags) $(warnflags)
+optflags = -O3
 debugflags = -ggdb3
 warnflags = 
+cppflags = 
 CCDLFLAGS = -fno-common
-CFLAGS   = $(CCDLFLAGS)  -O3 -Wno-error=shorten-64-to-32  -pipe  $(ARCH_FLAG)
+CFLAGS   = $(CCDLFLAGS)  -O3 -Wno-error=shorten-64-to-32  -fno-common -pipe  $(ARCH_FLAG)
 INCFLAGS = -I. -I$(arch_hdrdir) -I$(hdrdir)/ruby/backward -I$(hdrdir) -I$(srcdir) -I/usr/include/ffi
 DEFS     = 
-CPPFLAGS = -DRUBY_EXTCONF_H=\"$(RUBY_EXTCONF_H)\" -I/Users/yutakayamaki/.rbenv/versions/2.2.4/include  -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE -D_DARWIN_UNLIMITED_SELECT -D_REENTRANT $(DEFS) $(cppflags)
+CPPFLAGS = -DRUBY_EXTCONF_H=\"$(RUBY_EXTCONF_H)\" -I/Users/yutakayamaki/.rbenv/versions/2.6.4/include  -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE -D_DARWIN_UNLIMITED_SELECT -D_REENTRANT $(DEFS) $(cppflags)
 CXXFLAGS = $(CCDLFLAGS) $(cxxflags)  $(ARCH_FLAG)
-ldflags  = -L. -L/Users/yutakayamaki/.rbenv/versions/2.2.4/lib  -fstack-protector 
-dldflags = -Wl,-undefined,dynamic_lookup -Wl,-multiply_defined,suppress 
+ldflags  = -L. -L/Users/yutakayamaki/.rbenv/versions/2.6.4/lib  -fstack-protector-strong -L/usr/local/lib 
+dldflags = -L/Users/yutakayamaki/.rbenv/versions/2.6.4/lib  -Wl,-undefined,dynamic_lookup -Wl,-multiply_defined,suppress 
 ARCH_FLAG = 
 DLDFLAGS = $(ldflags) $(dldflags) $(ARCH_FLAG)
 LDSHARED = $(CC) -dynamic -bundle
 LDSHAREDXX = $(CXX) -dynamic -bundle
-AR = ar
+AR = libtool -static
 EXEEXT = 
 
 RUBY_INSTALL_NAME = $(RUBY_BASE_NAME)
-RUBY_SO_NAME = ruby
+RUBY_SO_NAME = ruby.2.6
 RUBYW_INSTALL_NAME = 
 RUBY_VERSION_NAME = $(RUBY_BASE_NAME)-$(ruby_version)
 RUBYW_BASE_NAME = rubyw
@@ -102,10 +106,10 @@ RUBY_BASE_NAME = ruby
 
 arch = x86_64-darwin17
 sitearch = $(arch)
-ruby_version = 2.2.0
+ruby_version = 2.6.0
 ruby = $(bindir)/$(RUBY_BASE_NAME)
 RUBY = $(ruby)
-ruby_headers = $(hdrdir)/ruby.h $(hdrdir)/ruby/ruby.h $(hdrdir)/ruby/defines.h $(hdrdir)/ruby/missing.h $(hdrdir)/ruby/intern.h $(hdrdir)/ruby/st.h $(hdrdir)/ruby/subst.h $(arch_hdrdir)/ruby/config.h $(RUBY_EXTCONF_H)
+ruby_headers = $(hdrdir)/ruby.h $(hdrdir)/ruby/backward.h $(hdrdir)/ruby/ruby.h $(hdrdir)/ruby/defines.h $(hdrdir)/ruby/missing.h $(hdrdir)/ruby/intern.h $(hdrdir)/ruby/st.h $(hdrdir)/ruby/subst.h $(arch_hdrdir)/ruby/config.h $(RUBY_EXTCONF_H)
 
 RM = rm -f
 RM_RF = $(RUBY) -run -e rm -- -rf
@@ -120,7 +124,6 @@ TOUCH = exit >
 #### End of system configuration section. ####
 
 preload = 
-
 libpath = . $(libdir)
 LIBPATH =  -L. -L$(libdir)
 DEFFILE = 
@@ -133,11 +136,12 @@ extout =
 extout_prefix = 
 target_prefix = 
 LOCAL_LIBS = 
-LIBS =  -lffi  -lffi -lpthread -ldl -lobjc 
-ORIG_SRCS = Thread.c Buffer.c DynamicLibrary.c Variadic.c ffi.c Pointer.c MemoryPointer.c Platform.c LongDouble.c Function.c MappedType.c Type.c Types.c StructLayout.c ArrayType.c LastError.c Struct.c Call.c MethodHandle.c AbstractMemory.c FunctionInfo.c ClosurePool.c StructByValue.c
+LIBS = $(LIBRUBYARG_SHARED) -lffi  -lffi  
+ORIG_SRCS = AbstractMemory.c ArrayType.c Buffer.c Call.c ClosurePool.c DynamicLibrary.c Function.c FunctionInfo.c LastError.c LongDouble.c MappedType.c MemoryPointer.c MethodHandle.c Platform.c Pointer.c Struct.c StructByValue.c StructLayout.c Thread.c Type.c Types.c Variadic.c ffi.c
 SRCS = $(ORIG_SRCS) 
-OBJS = Thread.o Buffer.o DynamicLibrary.o Variadic.o ffi.o Pointer.o MemoryPointer.o Platform.o LongDouble.o Function.o MappedType.o Type.o Types.o StructLayout.o ArrayType.o LastError.o Struct.o Call.o MethodHandle.o AbstractMemory.o FunctionInfo.o ClosurePool.o StructByValue.o
+OBJS = AbstractMemory.o ArrayType.o Buffer.o Call.o ClosurePool.o DynamicLibrary.o Function.o FunctionInfo.o LastError.o LongDouble.o MappedType.o MemoryPointer.o MethodHandle.o Platform.o Pointer.o Struct.o StructByValue.o StructLayout.o Thread.o Type.o Types.o Variadic.o ffi.o
 HDRS = $(srcdir)/Type.h $(srcdir)/rbffi_endian.h $(srcdir)/MappedType.h $(srcdir)/Types.h $(srcdir)/LastError.h $(srcdir)/ArrayType.h $(srcdir)/extconf.h $(srcdir)/StructByValue.h $(srcdir)/AbstractMemory.h $(srcdir)/ClosurePool.h $(srcdir)/Call.h $(srcdir)/MethodHandle.h $(srcdir)/Struct.h $(srcdir)/rbffi.h $(srcdir)/Thread.h $(srcdir)/compat.h $(srcdir)/DynamicLibrary.h $(srcdir)/Platform.h $(srcdir)/Function.h $(srcdir)/LongDouble.h $(srcdir)/MemoryPointer.h $(srcdir)/Pointer.h
+LOCAL_HDRS = 
 TARGET = ffi_c
 TARGET_NAME = ffi_c
 TARGET_ENTRY = Init_$(TARGET_NAME)
@@ -152,9 +156,9 @@ RUBYLIBDIR    = $(sitelibdir)$(target_prefix)
 RUBYARCHDIR   = $(sitearchdir)$(target_prefix)
 HDRDIR        = $(rubyhdrdir)/ruby$(target_prefix)
 ARCHHDRDIR    = $(rubyhdrdir)/$(arch)/ruby$(target_prefix)
-
-TARGET_SO     = $(DLLIB)
-CLEANLIBS     = $(TARGET).bundle 
+TARGET_SO_DIR =
+TARGET_SO     = $(TARGET_SO_DIR)$(DLLIB)
+CLEANLIBS     = $(TARGET_SO) 
 CLEANOBJS     = *.o  *.bak
 
 all:    $(DLLIB)
@@ -181,17 +185,19 @@ distclean: clean distclean-so distclean-static distclean-rb-default distclean-rb
 realclean: distclean
 install: install-so install-rb
 
-install-so: $(DLLIB) $(TIMESTAMP_DIR)/.RUBYARCHDIR.time
+install-so: $(DLLIB) $(TIMESTAMP_DIR)/.sitearchdir.time
 	$(INSTALL_PROG) $(DLLIB) $(RUBYARCHDIR)
 clean-static::
 	-$(Q)$(RM) $(STATIC_LIB)
-install-rb: pre-install-rb install-rb-default
-install-rb-default: pre-install-rb-default
+install-rb: pre-install-rb do-install-rb install-rb-default
+install-rb-default: pre-install-rb-default do-install-rb-default
 pre-install-rb: Makefile
 pre-install-rb-default: Makefile
+do-install-rb:
+do-install-rb-default:
 pre-install-rb-default:
 	@$(NULLCMD)
-$(TIMESTAMP_DIR)/.RUBYARCHDIR.time:
+$(TIMESTAMP_DIR)/.sitearchdir.time:
 	$(Q) $(MAKEDIRS) $(@D) $(RUBYARCHDIR)
 	$(Q) $(TOUCH) $@
 
@@ -203,53 +209,53 @@ site-install-rb: install-rb
 
 .cc.o:
 	$(ECHO) compiling $(<)
-	$(Q) $(CXX) $(INCFLAGS) $(CPPFLAGS) $(CXXFLAGS) $(COUTFLAG)$@ -c $<
+	$(Q) $(CXX) $(INCFLAGS) $(CPPFLAGS) $(CXXFLAGS) $(COUTFLAG)$@ -c $(CSRCFLAG)$<
 
 .cc.S:
 	$(ECHO) translating $(<)
-	$(Q) $(CXX) $(INCFLAGS) $(CPPFLAGS) $(CXXFLAGS) $(COUTFLAG)$@ -S $<
+	$(Q) $(CXX) $(INCFLAGS) $(CPPFLAGS) $(CXXFLAGS) $(COUTFLAG)$@ -S $(CSRCFLAG)$<
 
 .mm.o:
 	$(ECHO) compiling $(<)
-	$(Q) $(CXX) $(INCFLAGS) $(CPPFLAGS) $(CXXFLAGS) $(COUTFLAG)$@ -c $<
+	$(Q) $(CXX) $(INCFLAGS) $(CPPFLAGS) $(CXXFLAGS) $(COUTFLAG)$@ -c $(CSRCFLAG)$<
 
 .mm.S:
 	$(ECHO) translating $(<)
-	$(Q) $(CXX) $(INCFLAGS) $(CPPFLAGS) $(CXXFLAGS) $(COUTFLAG)$@ -S $<
+	$(Q) $(CXX) $(INCFLAGS) $(CPPFLAGS) $(CXXFLAGS) $(COUTFLAG)$@ -S $(CSRCFLAG)$<
 
 .cxx.o:
 	$(ECHO) compiling $(<)
-	$(Q) $(CXX) $(INCFLAGS) $(CPPFLAGS) $(CXXFLAGS) $(COUTFLAG)$@ -c $<
+	$(Q) $(CXX) $(INCFLAGS) $(CPPFLAGS) $(CXXFLAGS) $(COUTFLAG)$@ -c $(CSRCFLAG)$<
 
 .cxx.S:
 	$(ECHO) translating $(<)
-	$(Q) $(CXX) $(INCFLAGS) $(CPPFLAGS) $(CXXFLAGS) $(COUTFLAG)$@ -S $<
+	$(Q) $(CXX) $(INCFLAGS) $(CPPFLAGS) $(CXXFLAGS) $(COUTFLAG)$@ -S $(CSRCFLAG)$<
 
 .cpp.o:
 	$(ECHO) compiling $(<)
-	$(Q) $(CXX) $(INCFLAGS) $(CPPFLAGS) $(CXXFLAGS) $(COUTFLAG)$@ -c $<
+	$(Q) $(CXX) $(INCFLAGS) $(CPPFLAGS) $(CXXFLAGS) $(COUTFLAG)$@ -c $(CSRCFLAG)$<
 
 .cpp.S:
 	$(ECHO) translating $(<)
-	$(Q) $(CXX) $(INCFLAGS) $(CPPFLAGS) $(CXXFLAGS) $(COUTFLAG)$@ -S $<
+	$(Q) $(CXX) $(INCFLAGS) $(CPPFLAGS) $(CXXFLAGS) $(COUTFLAG)$@ -S $(CSRCFLAG)$<
 
 .c.o:
 	$(ECHO) compiling $(<)
-	$(Q) $(CC) $(INCFLAGS) $(CPPFLAGS) $(CFLAGS) $(COUTFLAG)$@ -c $<
+	$(Q) $(CC) $(INCFLAGS) $(CPPFLAGS) $(CFLAGS) $(COUTFLAG)$@ -c $(CSRCFLAG)$<
 
 .c.S:
 	$(ECHO) translating $(<)
-	$(Q) $(CC) $(INCFLAGS) $(CPPFLAGS) $(CFLAGS) $(COUTFLAG)$@ -S $<
+	$(Q) $(CC) $(INCFLAGS) $(CPPFLAGS) $(CFLAGS) $(COUTFLAG)$@ -S $(CSRCFLAG)$<
 
 .m.o:
 	$(ECHO) compiling $(<)
-	$(Q) $(CC) $(INCFLAGS) $(CPPFLAGS) $(CFLAGS) $(COUTFLAG)$@ -c $<
+	$(Q) $(CC) $(INCFLAGS) $(CPPFLAGS) $(CFLAGS) $(COUTFLAG)$@ -c $(CSRCFLAG)$<
 
 .m.S:
 	$(ECHO) translating $(<)
-	$(Q) $(CC) $(INCFLAGS) $(CPPFLAGS) $(CFLAGS) $(COUTFLAG)$@ -S $<
+	$(Q) $(CC) $(INCFLAGS) $(CPPFLAGS) $(CFLAGS) $(COUTFLAG)$@ -S $(CSRCFLAG)$<
 
-$(DLLIB): $(OBJS) Makefile
+$(TARGET_SO): $(OBJS) Makefile
 	$(ECHO) linking shared-object $(DLLIB)
 	-$(Q)$(RM) $(@)
 	$(Q) $(LDSHARED) -o $@ $(OBJS) $(LIBPATH) $(DLDFLAGS) $(LOCAL_LIBS) $(LIBS)

@@ -176,13 +176,13 @@ AUTOCONF = ${SHELL} /Users/yutakayamaki/yy-toy/yy-toy/vendor/bundle/gems/ffi-1.1
 AUTOHEADER = ${SHELL} /Users/yutakayamaki/yy-toy/yy-toy/vendor/bundle/gems/ffi-1.12.2/ext/ffi_c/libffi/missing autoheader
 AUTOMAKE = ${SHELL} /Users/yutakayamaki/yy-toy/yy-toy/vendor/bundle/gems/ffi-1.12.2/ext/ffi_c/libffi/missing automake-1.16
 AWK = awk
-CC = clang
-CCAS = clang
+CC =  clang
+CCAS =  clang
 CCASDEPMODE = depmode=none
 CCASFLAGS = 
 CCDEPMODE = depmode=none
 CFLAGS =  -Wall -fexceptions
-CPP = clang -E
+CPP =  clang -E
 CPPFLAGS = 
 CXX = g++
 CXXCPP = g++ -E
@@ -253,7 +253,7 @@ abs_srcdir = /Users/yutakayamaki/yy-toy/yy-toy/vendor/bundle/gems/ffi-1.12.2/ext
 abs_top_builddir = /Users/yutakayamaki/yy-toy/yy-toy/vendor/bundle/gems/ffi-1.12.2/ext/ffi_c/libffi-x86_64-darwin17
 abs_top_srcdir = /Users/yutakayamaki/yy-toy/yy-toy/vendor/bundle/gems/ffi-1.12.2/ext/ffi_c/libffi
 ac_ct_AR = ar
-ac_ct_CC = clang
+ac_ct_CC =  clang
 ac_ct_CXX = g++
 ac_ct_DUMPBIN = 
 am__include = include
