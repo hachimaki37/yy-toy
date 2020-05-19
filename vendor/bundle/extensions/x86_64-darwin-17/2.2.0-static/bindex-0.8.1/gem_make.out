@@ -1,0 +1,11 @@
+/Users/yutakayamaki/.rbenv/versions/2.2.4/bin/ruby -r ./siteconf20200519-25406-1wpva7v.rb extconf.rb
+creating Makefile
+
+make "DESTDIR=" clean
+
+make "DESTDIR="
+compiling cruby.c
+linking shared-object skiptrace/internal/cruby.bundle
+
+make "DESTDIR=" install
+/usr/bin/install -c -m 0755 cruby.bundle ./.gem.20200519-25406-4eq74t/skiptrace/internal
